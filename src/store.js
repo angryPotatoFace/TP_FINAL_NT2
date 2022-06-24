@@ -23,7 +23,7 @@ export default new Vuex.Store({
             const {data: lista} = await axios.post(this.state.url, {name:name},{ 'content-type': 'application/json'});
             commit('cargarList',lista);
         },
-        async getListas( {commit}){
+        getListas( {commit} ){
             axios.get(this.state.url)
             .then( data => commit('cargarListas', data.data))
             .catch(e => console.error('ERROR AL OBTENER LISTAS')+e);
@@ -33,10 +33,11 @@ export default new Vuex.Store({
            commit('deleteList',lista.id);
         },
         async updateNameList( {commit}, name){
-            const {data: lista} = await axios.get(this.state.url+`/${this.state.id}`);
-            lista.name = name;
-            const { data: listaM } = await axios.put(this.state.url+`/${lista.id}`,lista);
-            commit('updateNameList',listaM);
+            const index = this.state.listas.findIndex((lista) => lista.id == this.state.id);
+            const item = this.state.listas[index];
+            item.name = name;
+            const { data: lista } = await axios.put(this.state.url+`/${item.id}`,item);
+            commit('updateNameList',lista);
         }
     },
     mutations:{
@@ -57,7 +58,8 @@ export default new Vuex.Store({
             state.listas = list;
         },
         updateNameList(state,list) {
-            state.listas[list.id-1] = list;
+            const index = state.listas.findIndex( lista => lista.id == state.id);
+            state.listas.splice(index,1,list);
         }
     },
 })
