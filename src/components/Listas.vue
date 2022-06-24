@@ -86,33 +86,32 @@
     methods: { 
       showList(event){
         const id = event.target.id;
-        this.$store.dispatch('showList',id);158252500110
+        this.$store.dispatch('showList',id);
       },
       agregarLista(name){
         this.$store.dispatch('cargarLista',name);
-        this.wait();
       },
       getListas(){
         this.$store.dispatch('getListas');
       },
       deleteList(id){
         this.$store.dispatch('deleteList',id);
-        this.wait();
+        //this.wait();
       },
       updateLista(name){
         this.$store.dispatch('updateNameList',name);
-        this.wait();
       },
       setId(id){
         this.$store.state.id = id;
       }, 
-      wait(){
-        setTimeout( () => window.location.href = "http://localhost:8080" ,1000);
-      },
+      // wait(){
+      //   setTimeout( () => window.location.href = "http://localhost:8080" ,1000);
+      // },
     },
     computed: {
       getListasdeCompras() {
-        return this.$store.state.listas[0];
+        console.log(this.$store.state.listas);
+        return this.$store.state.listas;
       }
     }
 }
