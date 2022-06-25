@@ -9,6 +9,7 @@ export const router = new VueRouter({
     mode: 'history',
     routes: [
         { path: '/', component: Listas },
+        { path: '/listas', component: Listas },
         { path: '/show-list', component: MostrarLista },
     ],
 });

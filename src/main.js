@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap'
 import 'jquery'
 import 'popper.js'
+import './form'
 import { router } from './router'
 import store from './store'
 

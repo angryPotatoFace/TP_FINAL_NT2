@@ -8,15 +8,16 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         id: "",
-        listName: "",
+        showList: {},
         listas: [],
         itemsList: [],
         test: true,
         "url": "https://628fcb460e69410599e2e8b1.mockapi.io/users"
     },
     actions: {
-        showList( {commit},id){
-            console.log('Se muestra la lista');
+
+    // ======================== LISTAS ================================================
+        showList( {commit},id) {
             commit('itemList',id);
         },
         async cargarLista( {commit}, name){
@@ -38,13 +39,24 @@ export default new Vuex.Store({
             item.name = name;
             const { data: lista } = await axios.put(this.state.url+`/${item.id}`,item);
             commit('updateNameList',lista);
+        },
+
+    // ======================== ITEMS ================================================
+        async cargarItemDeLaLista( {commit}, obj){
+            const index = this.state.showList.id
+            const { data: getList } = await axios.get(this.state.url+`/${index}`);
+            getList.item.push(obj);
+            const { data: lista } = await axios.put(this.state.url+`/${index}`,getList);
+            commit('cargarItemDeLaLista', getList);
         }
+
     },
     mutations:{
+
+    // ======================== LISTAS ================================================
         itemList(state,id){
-            state.listName = state.listas[id].name;
-            state.itemsList = state.listas[id].item;
-            state.test = false;
+            state.showList = state.listas[id];
+            console.log(state.showList);
         },
         cargarListas(state, data){
             state.listas = data;
@@ -60,6 +72,12 @@ export default new Vuex.Store({
         updateNameList(state,list) {
             const index = state.listas.findIndex( lista => lista.id == state.id);
             state.listas.splice(index,1,list);
+        },
+    // ======================== ITEMS ================================================
+
+        cargarItemDeLaLista(state, list){
+            state.itemsList = list.item;
         }
+
     },
 })

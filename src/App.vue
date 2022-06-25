@@ -1,20 +1,18 @@
 <template>
   <div id="app">
-    <div v-if="$store.state.test"> <Listas /> </div>
-    <div v-else> <MostrarLista /> </div>     
+    <Navbar />
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 
-import Listas from './components/Listas.vue'
-import MostrarLista from './components/MostrarLista.vue'
+import Navbar from './components/Navbar.vue'
 
 export default {
   name: 'App',
   components: {
-    Listas,
-    MostrarLista
+    Navbar
   }
 }
 </script>

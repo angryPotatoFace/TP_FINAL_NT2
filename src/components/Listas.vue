@@ -5,9 +5,10 @@
       <table class="table table-info">
           <tbody >
             <tr v-for="(list,index) in getListasdeCompras" :key="index" >
-              <td :class="[ (index%2==0)? 'bg-warning bg-gradient' :'bg-light']" :style="{border: 'none', borderBottom: '.5px solid #fff' }" :id='index' @click="showList($event)">{{ list.name }}</td>
+              <td :class="[ (index%2==0)? 'bg-warning bg-gradient' :'bg-light']" :style="{border: 'none', borderBottom: '.5px solid #fff' }" :id='index' >{{ list.name }}</td>
               <button class="btn btn-dark" :style="{marginRight: '1rem'}" @click="deleteList(list.id)">Delete</button>
-              <button class="btn btn-dark" data-toggle="modal" data-target="#updateModal" @click="setId(list.id)">Update</button>
+              <button class="btn btn-dark" :style="{marginRight: '1rem'}" data-toggle="modal" data-target="#updateModal" @click="setId(list.id)">Update</button>
+              <button class="btn btn-dark" @click="showList(index)" >Selecionar</button>
             </tr>
           </tbody>
       </table>
@@ -85,7 +86,7 @@
     },
     methods: { 
       showList(event){
-        const id = event.target.id;
+        const id = event;
         this.$store.dispatch('showList',id);
       },
       agregarLista(name){
@@ -131,7 +132,7 @@
     box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.1);
     -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.1);
     -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.1);
-    width: 80%;
+    width: 70%;
   }
 
   tr {
