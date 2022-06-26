@@ -48,6 +48,18 @@ export default new Vuex.Store({
             getList.item.push(obj);
             const { data: lista } = await axios.put(this.state.url+`/${index}`,getList);
             commit('cargarItemDeLaLista', getList);
+        },
+        async obtenerLista({commit}){
+            const index = this.state.showList.id
+            const { data: getList } = await axios.get(this.state.url+`/${index}`);
+            commit('cargarItemDeLaLista',getList);
+        },
+        async deleteItem({commit},id) {
+            const idList = this.state.showList.id;
+            const { data: getList } = await axios.get(this.state.url+`/${idList}`);
+            getList.item.splice(id,1);
+            await axios.put(this.state.url+`/${idList}`,getList);
+            commit('deleteItem',id);
         }
 
     },
@@ -56,7 +68,6 @@ export default new Vuex.Store({
     // ======================== LISTAS ================================================
         itemList(state,id){
             state.showList = state.listas[id];
-            console.log(state.showList);
         },
         cargarListas(state, data){
             state.listas = data;
@@ -66,7 +77,6 @@ export default new Vuex.Store({
             state.listas.splice(index,1);
         },
         cargarList(state,list) {
-            console.log(list);
             state.listas = list;
         },
         updateNameList(state,list) {
@@ -77,7 +87,9 @@ export default new Vuex.Store({
 
         cargarItemDeLaLista(state, list){
             state.itemsList = list.item;
+        },
+        deleteItem(state,id){
+            state.itemsList.splice(id,1);
         }
-
     },
 })

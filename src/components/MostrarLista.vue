@@ -3,19 +3,20 @@
   <section class="mostrar-lista jumbotron">
 
       <div class="table-responsive ">
-      <h1 class="badge-dark">Lista de {{ $store.state.showList.name }}</h1>
+      <h1 class="badge-dark">{{$store.state.showList.name !=undefined ? "Lista de " + $store.state.showList.name: "No ha seleccionado ninguna lista"}}</h1>
       <table class="table table-info">
           <tbody >
-            <tr v-for="(list,index) in getListasdeItemsCompras" :key="index" >
-              <td :class="[ (index%2==0)? 'bg-warning bg-gradient' :'bg-light']" :style="{ border: 'none', borderBottom: '.5px solid #fff' }">{{list.nombre}}</td>
-              <td :class="[ (index%2==0)? 'bg-warning bg-gradient' :'bg-light']" :style="{ border: 'none', borderBottom: '.5px solid #fff' }">{{list.cantidad}}</td>
+            <tr :class="[ (index%2==0)? 'bg-warning bg-gradient' :'bg-light']" v-for="(list,index) in  getItemsList()" :key="index" >
+              <td :style="{ border: 'none', borderBottom: '.5px solid #fff' }">{{list.nombre}}</td>
+              <td :style="{ border: 'none', borderBottom: '.5px solid #fff' }">{{list.cantidad}}</td>
+              <button class="btn btn-danger mt-1" @click="deleteItem(list)">X</button>
             </tr>
           </tbody>
       </table>
 
       </div>
       <!-- Button trigger modal -->
-      <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModal">
+      <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModal" :disabled="$store.state.showList.name ==undefined">
         Agregar Item
       </button>
 
@@ -90,7 +91,7 @@
 
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button class="btn btn-primary" type="submit" :disabled="formState.$invalid">Guardar cambios</button>
+                <button class="btn btn-primary" type="submit" :disabled="formState.$invalid">Guardar</button>
               </div>
           </vue-form>
       </div>
@@ -104,12 +105,13 @@
 </template>
 
 <script >
-
   export default  {
     name: 'mostrar-lista',
     props: [],
     mounted () {
+      this.obtenerLista();
     },
+    
     data () {
       return {
         formState: {},
@@ -134,8 +136,9 @@
         const obj = { nombre: name, cantidad: cant }
         this.$store.dispatch('cargarItemDeLaLista',obj);
       },
-       deleteItem(nombre){
-        this.$store.dispatch('deleteList',nombre);
+       deleteItem(index){
+        const id = this.$store.state.itemsList.findIndex((lista) => lista.name === index.name  && lista.cantidad === index.cantidad);
+        this.$store.dispatch('deleteItem',id);
       },
       limpiarFormulario(){
         return {
@@ -143,6 +146,9 @@
           cantidad: ''
         }
       },
+      obtenerLista(){
+        this.$store.dispatch('obtenerLista');
+      }
     },
     computed: {
       getListasdeItemsCompras() {
@@ -150,17 +156,10 @@
       }
     }
 }
-
-
 </script>
 
 <style scoped lang="css">
-  .mostrar-lista {
-
-  }
-
   .jumbotron {
     background-color: cadetblue;
   }
-
 </style>

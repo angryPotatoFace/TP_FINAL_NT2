@@ -30,11 +30,13 @@
           </button>
         </div>
         <div class="modal-body">
-          <input type="text" v-model.trim="input" />
+
+           <!-- validar campo min y max de caracteres -->
+          <input  type="text" class= "form-control" v-model.trim="input" minlength="3" maxlength="50"/> 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" @click="agregarLista(input)">Save changes</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary" @click="agregarLista(input)" data-dismiss="modal">Guardar</button>
         </div>
       </div>
     </div>
@@ -55,8 +57,8 @@
           <input type="text" v-model.trim="input" />
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" @click="updateLista(input)">Save changes</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary" @click="updateLista(input)">Guardar</button>
         </div>
       </div>
     </div>
@@ -87,7 +89,10 @@
     methods: { 
       showList(event){
         const id = event;
-        this.$store.dispatch('showList',id);
+        this.$store.dispatch('showList',id)
+                this.$router.push({path:'show-list'})
+        
+        
       },
       agregarLista(name){
         this.$store.dispatch('cargarLista',name);
