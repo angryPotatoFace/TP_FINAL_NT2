@@ -77,7 +77,7 @@ export default new Vuex.Store({
             state.listas.splice(index,1);
         },
         cargarList(state,list) {
-            state.listas = list;
+            state.listas.push(list);
         },
         updateNameList(state,list) {
             const index = state.listas.findIndex( lista => lista.id == state.id);
