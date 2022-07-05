@@ -1,6 +1,6 @@
 <template >
   <section class="listas jumbotron">
-    <h1 class="badge-dark">Lista de Compra</h1>
+    <h1 class="badge-dark"> {{"Lista de Compra " | pasarAMayuscula }} </h1>
       <div class="table-responsive jumbotron">
       <table class="table table-info">
           <tbody >
@@ -32,7 +32,7 @@
         <div class="modal-body">
 
            <!-- validar campo min y max de caracteres -->
-          <input  type="text" class= "form-control" v-model.trim="input" minlength="3" maxlength="50"/> 
+          <input type="text" class= "form-control" v-model.trim="input" minlength="3" maxlength="50"/> 
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -64,16 +64,21 @@
     </div>
   </div>
   <!-- Modal update Lista-->
-
+  <UltimaLista :ultima="getLastList()" />
   </section>
 </template>
 
 <script >
+
+import UltimaLista from './UltimaLista.vue'
   export default  {
     
     // eslint-disable-next-line vue/multi-word-component-names
     name: 'listas',
     props: [],
+    components: {
+      UltimaLista
+    },
     mounted () {
       this.getListas();
     },
@@ -90,9 +95,7 @@
       showList(event){
         const id = event;
         this.$store.dispatch('showList',id)
-                this.$router.push({path:'show-list'})
-        
-        
+        this.$router.push({path:'show-list'})
       },
       agregarLista(name){
         this.$store.dispatch('cargarLista',name);
@@ -110,15 +113,9 @@
       setId(id){
         this.$store.state.id = id;
       }, 
-      // wait(){
-      //   setTimeout( () => window.location.href = "http://localhost:8080" ,1000);
-      // },
     },
     computed: {
-      getListasdeCompras() {
-        console.log(this.$store.state.listas);
-        return this.$store.state.listas;
-      }
+    
     }
 }
 

@@ -3,7 +3,7 @@
   <section class="mostrar-lista jumbotron">
 
       <div class="table-responsive ">
-      <h1 class="badge-dark">{{$store.state.showList.name !=undefined ? "Lista de " + $store.state.showList.name: "No ha seleccionado ninguna lista"}}</h1>
+      <h1 class="badge-dark">{{ ( $store.state.showList.name !=undefined ? "Lista de " + $store.state.showList.name: "No ha seleccionado ninguna lista" ) | pasarAMayuscula}}</h1>
       <table class="table table-info">
           <tbody >
             <tr :class="[ (index%2==0)? 'bg-warning bg-gradient' :'bg-light']" v-for="(list,index) in  getItemsList()" :key="index" >

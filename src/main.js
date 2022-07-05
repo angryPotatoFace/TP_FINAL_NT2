@@ -5,6 +5,8 @@ import 'bootstrap'
 import 'jquery'
 import 'popper.js'
 import './form'
+import './globalFilters'
+import './globalMixin'
 import { router } from './router'
 import store from './store'
 
